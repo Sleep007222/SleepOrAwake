@@ -4,8 +4,6 @@ body
   min-height: 100vh;
   font-family: VarelaRound, sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 /* Image button */
@@ -15,6 +13,8 @@ body
   border: none;
   padding: 0;
   cursor: pointer;
+  justify-content: center;
+  align-items: center;
 }
 .open-button img
 {
