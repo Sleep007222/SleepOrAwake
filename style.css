@@ -3,6 +3,7 @@ body
   margin: 0;
   min-height: 100vh;
   font-family: VarelaRound, sans-serif;
+  background: rgb(139, 157, 89);
 }
 
 /* Image button */
@@ -84,7 +85,23 @@ body
 #overlay.active { opacity: 1; pointer-events: all; z-index: 10; }
 
 /* Website design*/
-header, nav, main, footer
+header
+{
+  padding: 20px;
+  text-align: center;
+  font-size: 60px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  margin: 10px;
+  border-radius: 10px;
+  height: 150px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+nav, main
 {
   padding: 20px;
   text-align: center;
@@ -93,9 +110,52 @@ header, nav, main, footer
   margin: 10px;
   border-radius: 10px;
 }
+
+footer
+{
+  padding: 20px;
+  text-align: center;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  margin: 10px;
+  border-radius: 10px;
+  height: 100px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
 .box
 {
   max-width: 1000px;
   margin: 50px auto;
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: 250px auto;
 
+}
+header
+{
+  grid-row: 1 / 2 ;
+  grid-column: 1 / 3;
+}
+
+nav
+{
+  grid-row: 2 / 3;
+  grid-column: 1 / 2;
+  height: max-content;
+}
+
+main
+{
+  grid-row: 2 / 3;
+  grid-column: 2 / 3;
+  height: max-content;
+}
+
+footer
+{
+  grid-row: 3 / 4;
+  grid-column: 1 / 3;
 }
