@@ -210,17 +210,20 @@ nav ul
 {
   .box
   {
-    grid-template-columns: 1fr;   /* one column instead of two */
+    grid-template-columns: 1fr;
     margin: 10px auto;
+    grid-gap: 0;
   }
 
-  /* stack everything: header, nav, main, footer */
-  header { grid-row: 1; grid-column: 1; height: auto; font-size: 32px; }
-  nav    { grid-row: 2; grid-column: 1; }
-  main   { grid-row: 3; grid-column: 1; }
+  header { grid-row: 1; grid-column: 1; height: auto; padding: 15px; }
+  header h2 { font-size: 24px; margin: 0; }
+
+  nav    { grid-row: 2; grid-column: 1; padding: 15px; }
+  nav h2 { margin-top: 0; }
+  main   { grid-row: 3; grid-column: 1; padding: 15px; }
   footer { grid-row: 4; grid-column: 1; height: auto; }
 
-  /* nav links go side by side instead of in a tall list */
+  /* links side by side instead of a tall list */
   nav ul
   {
     flex-direction: row;
@@ -230,5 +233,5 @@ nav ul
     margin: 0;
   }
 
-  main { padding: 12px; }
+  .open-button img { width: 150px; height: 150px; }
 }
