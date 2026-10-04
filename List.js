@@ -8,101 +8,68 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const listDoc = db.collection("list").doc("shared");
 
-const form = document.getElementById("add-form");
-const input = document.getElementById("new-item");
-const itemsEl = document.getElementById("items");
+// Uses the "list/shared" spot in the database, which your rules already allow
+const noteDoc = firebase.firestore().collection("list").doc("shared");
+
+const box = document.getElementById("note");
 const statusEl = document.getElementById("status");
-const clearBtn = document.getElementById("clear-done");
 
-let items = [];
+let dirty = false; // true while you have changes that aren't saved yet
+let saveTimer;
 
-// Runs on load AND whenever either of you changes the list
-listDoc.onSnapshot(
+// Runs on load AND whenever the other person changes the note
+noteDoc.onSnapshot(
   (snap) => {
-    items = snap.exists ? snap.data().items || [] : [];
-    render();
+    if (snap.metadata.hasPendingWrites) return;          // ignore our own save echoing back
+    if (!snap.exists && snap.metadata.fromCache) return; // wait for the real data
+
+    const remote = snap.exists ? snap.data().text || "" : "";
+
+    // don't overwrite what you're in the middle of typing
+    if (!dirty && box.value !== remote) {
+      const start = box.selectionStart;
+      const end = box.selectionEnd;
+      box.value = remote;
+      box.setSelectionRange(start, end);
+    }
+
+    box.disabled = false;
+    if (!dirty) statusEl.textContent = "Saved";
   },
   (error) => {
     console.error("Firebase error:", error);
-    statusEl.textContent = "Couldn't connect to the list. Try refreshing.";
+    statusEl.textContent = "Couldn't connect. Try refreshing.";
   }
 );
 
-// Safely changes the list: reads the newest version, applies the change, saves.
-// This keeps two people's edits from overwriting each other.
-function update(change) {
-  return db
-    .runTransaction(async (tx) => {
-      const snap = await tx.get(listDoc);
-      const current = snap.exists ? snap.data().items || [] : [];
-      tx.set(listDoc, { items: change(current) });
+// Auto-save shortly after you stop typing
+box.addEventListener("input", () => {
+  dirty = true;
+  statusEl.textContent = "Typing...";
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(save, 700);
+});
+
+function save() {
+  clearTimeout(saveTimer);
+  const sent = box.value;
+  statusEl.textContent = "Saving...";
+  noteDoc
+    .set({ text: sent })
+    .then(() => {
+      if (box.value === sent) {
+        dirty = false;
+        statusEl.textContent = "Saved";
+      }
     })
     .catch((error) => {
       console.error(error);
-      alert("Couldn't save that. Check your connection and try again.");
+      statusEl.textContent = "Couldn't save. Check your connection.";
     });
 }
 
-function render() {
-  itemsEl.innerHTML = "";
-
-  if (items.length === 0) {
-    statusEl.textContent = "Nothing here yet. Add the first thing!";
-  } else {
-    statusEl.textContent = "";
-  }
-
-  items.forEach((item) => {
-    const li = document.createElement("li");
-    if (item.done) li.classList.add("done");
-
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.checked = item.done;
-    checkbox.addEventListener("change", () => {
-      update((list) =>
-        list.map((i) => (i.id === item.id ? { ...i, done: !i.done } : i))
-      );
-    });
-
-    const text = document.createElement("span");
-    text.textContent = item.text; // textContent keeps typed text safe
-
-    const del = document.createElement("button");
-    del.type = "button";
-    del.className = "delete-btn";
-    del.textContent = "\u00d7";
-    del.setAttribute("aria-label", "Delete item");
-    del.addEventListener("click", () => {
-      update((list) => list.filter((i) => i.id !== item.id));
-    });
-
-    li.append(checkbox, text, del);
-    itemsEl.appendChild(li);
-  });
-
-  clearBtn.style.display = items.some((i) => i.done) ? "block" : "none";
-}
-
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const text = input.value.trim();
-  if (text === "") return;
-
-  const newItem = {
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-    text: text,
-    done: false,
-  };
-  input.value = "";
-  update((list) => [...list, newItem]);
-});
-
-clearBtn.addEventListener("click", () => {
-  if (confirm("Remove all checked items?")) {
-    update((list) => list.filter((i) => !i.done));
-  }
+// Save right away if you switch apps or close the tab (important on phones)
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "hidden" && dirty) save();
 });

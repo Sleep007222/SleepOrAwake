@@ -22,25 +22,17 @@
             </ul>
         </nav>
         <main>
-            <div class="list-app">
-                <h2>Our List</h2>
-
-                <form id="add-form" autocomplete="off">
-                    <input type="text" id="new-item" placeholder="Add something..." maxlength="100">
-                    <button type="submit">Add</button>
-                </form>
-
+            <div class="note-app">
+                <h2>Our Notes</h2>
+                <textarea id="note" placeholder="Write something..." maxlength="20000" disabled></textarea>
                 <p id="status">Loading...</p>
-                <ul id="items"></ul>
-
-                <button id="clear-done" type="button">Clear checked items</button>
             </div>
         </main>
         <footer>Footer</footer>
         </div>
 
-        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-        <script src="list.js"></script>
+        <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+        <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+        <script defer src="list.js"></script>
     </body>
 </html>
