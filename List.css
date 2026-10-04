@@ -1,0 +1,130 @@
+.list-app
+{
+  --primary-clr: #8bd375;
+  --dark-green: rgb(27, 65, 22);
+}
+
+.list-app h2
+{
+  margin-top: 0;
+  color: var(--dark-green);
+}
+
+/* add form */
+.list-app #add-form
+{
+  display: flex;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.list-app #add-form input
+{
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  font-size: 16px;            /* 16px stops iPhones from zooming in */
+  font-family: inherit;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+}
+.list-app #add-form input:focus
+{
+  border-color: var(--primary-clr);
+}
+.list-app #add-form button
+{
+  padding: 10px 18px;
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: bold;
+  color: white;
+  background: var(--dark-green);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.list-app #add-form button:hover
+{
+  background: #2a6322;
+}
+
+.list-app #status
+{
+  color: #777;
+  margin: 10px 0;
+}
+
+/* list items */
+.list-app #items
+{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.list-app #items li
+{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+.list-app #items li input[type="checkbox"]
+{
+  width: 22px;
+  height: 22px;
+  accent-color: var(--dark-green);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.list-app #items li span
+{
+  flex: 1;
+  font-size: 18px;
+  overflow-wrap: anywhere;    /* long words wrap instead of overflowing */
+}
+.list-app #items li.done span
+{
+  text-decoration: line-through;
+  color: #999;
+}
+.list-app .delete-btn
+{
+  background: none;
+  border: none;
+  font-size: 26px;
+  line-height: 1;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.list-app .delete-btn:hover
+{
+  color: #c0392b;
+}
+
+/* clear checked button */
+.list-app #clear-done
+{
+  display: none;
+  margin-top: 15px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--dark-green);
+  background: transparent;
+  border: 2px solid var(--dark-green);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.list-app #clear-done:hover
+{
+  background: var(--dark-green);
+  color: white;
+}
