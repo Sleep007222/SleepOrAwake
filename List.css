@@ -128,3 +128,21 @@
   background: var(--dark-green);
   color: white;
 }
+@media (max-width: 700px)
+{
+  .list-app h2 { font-size: 22px; }
+
+  .list-app #add-form button { padding: 10px 14px; }
+
+  .list-app #items li
+  {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+  .list-app #items li span { font-size: 17px; }
+
+  /* bigger tap target for the delete button */
+  .list-app .delete-btn { padding: 4px 10px; font-size: 28px; }
+
+  .list-app #clear-done { width: 100%; }
+}
