@@ -20,26 +20,38 @@
                 <li><a href="List.html">Handy List</a></li>
             </ul>
         </nav>
-        <Main>
-            <h2><p style="color: rgb(27, 65, 22);">Letters to Open</p></h2>
+        <main>
+            <h2 style="color: rgb(27, 65, 22);">Letters to Open</h2>
             <p>Welcome! This is a test writing for the website :3 So ignore what I am writing on this website, Chuddy chud chud</p>
 
-            <button class="open-button" data-popup-target="#popup">
-                <img src="Letter.png" alt="Open concept art">
-            </button>
-        </Main>
-        <Footer> Footer</Footer>
+            <div class="letters">
+
+                <div class="letter">
+                    <button class="open-button" data-popup-target="#popup">
+                        <img src="Letter.png" alt="Open letter">
+                    </button>
+                    <p class="letter-label">For Sam</p>
+                    <p class="letter-date">Oct 4, 2026</p>
+                </div>
+
+                <!-- To add another letter, copy the whole <div class="letter"> block above,
+                     change the popup number (#popup2), the name, and the date.
+                     Then add a matching popup with id="popup2" below. -->
+
+            </div>
+        </main>
+        <footer>Footer</footer>
         </div>
 
 
         <div class="popup" id="popup">
             <div class="popup-header">
-                <div class="title">Concept art</div>
+                <div class="title">For Sam</div>
                 <button data-close-button class="close-button">&times;</button>
             </div>
             <div class="popup-body">
-                <img src="Testing.png" alt="Concept art 1">
-                <img src="Testing_2.png" alt="Concept art 2">
+                <img src="Testing.png" alt="Letter page 1">
+                <img src="Testing_2.png" alt="Letter page 2">
             </div>
         </div>
 
