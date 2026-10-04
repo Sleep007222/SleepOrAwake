@@ -38,7 +38,51 @@ const months = [
 ];
 
 const eventsArr = [];
-getEvents();
+
+// ------------------------------------------------------------
+// FIREBASE SETUP: paste YOUR config from the Firebase console here
+// ------------------------------------------------------------
+const firebaseConfig = {
+  apiKey: "AIzaSyCI9Ud_A8QdJXXdykq4V10XIy3QG1TrB3s",
+  authDomain: "sleeporawake-ba893.firebaseapp.com",
+  projectId: "sleeporawake-ba893",
+  storageBucket: "sleeporawake-ba893.firebasestorage.app",
+  messagingSenderId: "21740641524",
+  appId: "1:21740641524:web:bfc94b691e9d491fbad2a1",
+};
+
+firebase.initializeApp(firebaseConfig);
+const calendarDoc = firebase.firestore().collection("calendar").doc("shared");
+
+// Runs once on load AND again whenever either of you changes something
+calendarDoc.onSnapshot(
+  (snap) => {
+    if (!snap.exists) return;
+    const keepDay = activeDay;
+    eventsArr.length = 0;
+    eventsArr.push(...JSON.parse(snap.data().events));
+    initCalendar();
+    // keep the day you were looking at selected
+    if (keepDay) {
+      activeDay = keepDay;
+      getActiveDay(keepDay);
+      updateEvents(keepDay);
+      document.querySelectorAll(".day").forEach((d) => {
+        d.classList.remove("active");
+        if (
+          !d.classList.contains("prev-date") &&
+          !d.classList.contains("next-date") &&
+          Number(d.innerHTML) === keepDay
+        ) {
+          d.classList.add("active");
+        }
+      });
+    }
+  },
+  (error) => {
+    console.error("Firebase error:", error);
+  }
+);
 
 //function to add days in days with class day and prev-date next-date on previous month and next month days and active on today
 function initCalendar() {
@@ -245,7 +289,7 @@ function updateEvents(date) {
         </div>`;
   }
   eventsContainer.innerHTML = events;
-  saveEvents();
+  // note: no saveEvents() here anymore. We only save when something changes.
 }
 
 //function to add event
@@ -368,6 +412,7 @@ addEventSubmit.addEventListener("click", () => {
   addEventFrom.value = "";
   addEventTo.value = "";
   updateEvents(activeDay);
+  saveEvents(); // save to Firebase so your bf sees it
   //select active day and add event class if not added
   const activeDayEl = document.querySelector(".day.active");
   if (!activeDayEl.classList.contains("event")) {
@@ -403,22 +448,14 @@ eventsContainer.addEventListener("click", (e) => {
         }
       });
       updateEvents(activeDay);
+      saveEvents(); // save to Firebase so your bf sees the deletion
     }
   }
 });
 
-//function to save events in local storage
+//save the events to Firebase (replaces the old localStorage save/get functions)
 function saveEvents() {
-  localStorage.setItem("events", JSON.stringify(eventsArr));
-}
-
-//function to get events from local storage
-function getEvents() {
-  //check if events are already saved in local storage then return event else nothing
-  if (localStorage.getItem("events") === null) {
-    return;
-  }
-  eventsArr.push(...JSON.parse(localStorage.getItem("events")));
+  calendarDoc.set({ events: JSON.stringify(eventsArr) });
 }
 
 function convertTime(time) {
