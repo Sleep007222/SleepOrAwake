@@ -4,8 +4,46 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="list.css">
         <title>For Sam</title>
+
+        <style>
+            .note-app h2
+            {
+                margin-top: 0;
+                color: rgb(27, 65, 22);
+            }
+            .note-app #note
+            {
+                display: block;
+                box-sizing: border-box;
+                width: 100%;
+                min-height: 400px;
+                padding: 15px;
+                font-family: inherit;
+                font-size: 16px;      /* 16px stops iPhones from zooming in */
+                line-height: 1.5;
+                color: #fff;
+                background: #000;
+                border: 2px solid #222;
+                border-radius: 12px;
+                outline: none;
+                resize: vertical;
+            }
+            .note-app #note::placeholder { color: #888; }
+            .note-app #note:focus { border-color: #8bd375; }
+            .note-app #note:disabled { opacity: 0.6; }
+            .note-app #status
+            {
+                margin: 8px 2px 0;
+                font-size: 14px;
+                color: #555;
+            }
+            @media (max-width: 700px)
+            {
+                .note-app h2 { font-size: 22px; }
+                .note-app #note { min-height: 60vh; }
+            }
+        </style>
     </head>
 
     <body>
@@ -31,8 +69,105 @@
         <footer>Footer</footer>
         </div>
 
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-        <script defer src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-        <script defer src="list.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+        <script>
+            const box = document.getElementById("note");
+            const statusEl = document.getElementById("status");
+
+            if (typeof firebase === "undefined") {
+                statusEl.textContent =
+                    "Couldn't load Firebase. Check your connection (or turn off content blockers), then refresh.";
+            } else {
+                const firebaseConfig = {
+                    apiKey: "AIzaSyCI9Ud_A8QdJXXdykq4V10XIy3QG1TrB3s",
+                    authDomain: "sleeporawake-ba893.firebaseapp.com",
+                    projectId: "sleeporawake-ba893",
+                    storageBucket: "sleeporawake-ba893.firebasestorage.app",
+                    messagingSenderId: "21740641524",
+                    appId: "1:21740641524:web:bfc94b691e9d491fbad2a1",
+                };
+
+                firebase.initializeApp(firebaseConfig);
+
+                // Uses the "list/shared" spot in the database (your rules allow it)
+                const noteDoc = firebase.firestore().collection("list").doc("shared");
+
+                let connected = false;
+                let dirty = false;   // true while you have unsaved changes
+                let saveTimer;
+
+                // If nothing happens for a while, say so instead of staying on "Loading..."
+                setTimeout(() => {
+                    if (!connected) {
+                        statusEl.textContent =
+                            "Still trying to connect... check your internet, then refresh.";
+                    }
+                }, 8000);
+
+                // Runs on load AND whenever the other person changes the note
+                noteDoc.onSnapshot(
+                    (snap) => {
+                        if (snap.metadata.hasPendingWrites) return; // ignore our own save echoing back
+
+                        connected = true;
+                        const remote = snap.exists ? snap.data().text || "" : "";
+
+                        // don't overwrite what you're in the middle of typing
+                        if (!dirty && box.value !== remote) {
+                            const start = box.selectionStart;
+                            const end = box.selectionEnd;
+                            box.value = remote;
+                            box.setSelectionRange(start, end);
+                        }
+
+                        box.disabled = false;
+                        if (!dirty) statusEl.textContent = "Saved";
+                    },
+                    (error) => {
+                        console.error("Firebase error:", error);
+                        if (error.code === "permission-denied") {
+                            statusEl.textContent =
+                                "The database rules are blocking this. Publish the rules that include list/shared in Firebase.";
+                        } else {
+                            statusEl.textContent =
+                                "Couldn't connect (" + (error.code || "unknown error") + "). Try refreshing.";
+                        }
+                    }
+                );
+
+                // Auto-save shortly after you stop typing
+                box.addEventListener("input", () => {
+                    dirty = true;
+                    statusEl.textContent = "Typing...";
+                    clearTimeout(saveTimer);
+                    saveTimer = setTimeout(save, 700);
+                });
+
+                function save() {
+                    clearTimeout(saveTimer);
+                    const sent = box.value;
+                    statusEl.textContent = "Saving...";
+                    noteDoc
+                        .set({ text: sent })
+                        .then(() => {
+                            if (box.value === sent) {
+                                dirty = false;
+                                statusEl.textContent = "Saved";
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                            statusEl.textContent =
+                                "Couldn't save (" + (error.code || "unknown error") + ").";
+                        });
+                }
+
+                // Save right away if you switch apps or close the tab (important on phones)
+                document.addEventListener("visibilitychange", () => {
+                    if (document.visibilityState === "hidden" && dirty) save();
+                });
+            }
+        </script>
     </body>
 </html>
