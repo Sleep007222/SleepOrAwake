@@ -347,3 +347,19 @@
   .calendar-app .calendar .days .day.today { font-size: 1rem; }
   .calendar-app .right .today-date { padding: 0 20px; }
 }
+@media (max-width: 700px)
+{
+  .calendar-app { padding: 2px; }
+  .calendar-app .left { padding: 6px; }
+  .calendar-app .calendar .month { padding: 0 15px; font-size: 1rem; }
+  .calendar-app .calendar .weekdays { padding: 0 4px; font-size: 0.8rem; }
+  .calendar-app .calendar .days { padding: 0 4px; }
+  .calendar-app .calendar .days .day { height: 44px; font-size: 0.85rem; }
+  .calendar-app .calendar .days .day.active,
+  .calendar-app .calendar .days .day.today { font-size: 1.1rem; }
+  .calendar-app .calendar .goto-today { padding: 0 8px; }
+  .calendar-app .goto input { padding: 0 8px; }
+  .calendar-app .right .today-date { padding: 0 15px; }
+  .calendar-app .events .event { padding-left: 25px; }
+  .calendar-app .add-event { bottom: 15px; right: 15px; }
+}
