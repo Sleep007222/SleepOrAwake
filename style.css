@@ -16,8 +16,8 @@ body
 }
 .open-button img
 {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
   display: block;
   border-radius: 15px;
   transition: transform 0.25s ease;
