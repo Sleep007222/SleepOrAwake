@@ -3,7 +3,7 @@ body
   margin: 0;
   min-height: 100vh;
   font-family: VarelaRound, sans-serif;
-  background: rgb(139, 157, 89);
+  background: rgb(255, 255, 255);
 }
 
 /* Image button */
@@ -91,7 +91,7 @@ header
   text-align: center;
   font-size: 50px;
   background-color: #f2f2f2;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   margin: 10px;
   border-radius: 10px;
   height: 150px;
@@ -106,7 +106,7 @@ nav
   padding: 20px;
   text-align: left;
   background-color: #f2f2f2;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   margin: 10px;
   border-radius: 10px;
 }
@@ -116,7 +116,7 @@ main
   padding: 20px;
   text-align: left;
   background-color: #f2f2f2;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   margin: 10px;
   border-radius: 10px;
 }
@@ -126,7 +126,7 @@ footer
   padding: 20px;
   text-align: center;
   background-color: #f2f2f2;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   margin: 10px;
   border-radius: 10px;
   height: 100px;
