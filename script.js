@@ -6,13 +6,13 @@ const letters = [
     name: "First Letter",
     date: "Oct 4, 2026",
     icon: "Letter.png",
-    pages: ["Testing.png", "Testing_2.png"],
+    pages: ["Letter1_Page1.png", "Letter1_Page2.png", "Letter1_Page3.png", "Letter1_Page4.png"],
   },
   {
     name: "???",
     date: "October 9th, 2026",
     icon: "Letter.png",
-    pages: ["Testing.png", "Testing_2.png"],
+    pages: [],
   }
   // To add another letter, copy the block above, paste it here, and edit it:
   // {
