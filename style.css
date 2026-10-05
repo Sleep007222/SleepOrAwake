@@ -1,9 +1,43 @@
+@font-face
+{
+  font-family: "Pixelify Sans";
+  src: url("fonts/PixelifySans-VariableFont_wght.ttf") format("truetype");
+  font-weight: 400 700;   /* this font is variable, so bold works too */
+  font-display: block;
+}
+
+/* ---------- Colors: day (default) and night ---------- */
+:root
+{
+  --bg: #ffffff;
+  --panel: #f2f2f2;
+  --text: #000000;
+  --accent: rgb(35, 35, 35);
+  --muted: #666666;
+  --stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' shape-rendering='crispEdges'%3E%3Cpath fill='%23c8c8c8' d='M12 16h4v4h-4zM16 12h4v4h-4zM16 16h4v4h-4zM20 16h4v4h-4zM16 20h4v4h-4zM60 32h4v4h-4zM64 28h4v4h-4zM64 32h4v4h-4zM68 32h4v4h-4zM64 36h4v4h-4zM36 72h4v4h-4zM40 68h4v4h-4zM40 72h4v4h-4zM44 72h4v4h-4zM40 76h4v4h-4zM80 84h4v4h-4zM84 80h4v4h-4zM84 84h4v4h-4zM88 84h4v4h-4zM84 88h4v4h-4zM76 8h4v4h-4zM8 56h4v4h-4zM52 52h4v4h-4z'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="night"]
+{
+  --bg: #14182b;
+  --panel: #232842;
+  --text: #e8ecff;
+  --accent: #ffee8d;
+  --muted: #9aa3c7;
+  --stars: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' shape-rendering='crispEdges'%3E%3Cpath fill='%23414c85' d='M12 16h4v4h-4zM16 12h4v4h-4zM16 16h4v4h-4zM20 16h4v4h-4zM16 20h4v4h-4zM60 32h4v4h-4zM64 28h4v4h-4zM64 32h4v4h-4zM68 32h4v4h-4zM64 36h4v4h-4zM36 72h4v4h-4zM40 68h4v4h-4zM40 72h4v4h-4zM44 72h4v4h-4zM40 76h4v4h-4zM80 84h4v4h-4zM84 80h4v4h-4zM84 84h4v4h-4zM88 84h4v4h-4zM84 88h4v4h-4zM76 8h4v4h-4zM8 56h4v4h-4zM52 52h4v4h-4z'/%3E%3C/svg%3E");
+}
+
 body
 {
   margin: 0;
   min-height: 100vh;
-  font-family: VarelaRound, sans-serif;
-  background: rgb(255, 255, 255);
+  font-family: "Pixelify Sans", sans-serif;
+  color: var(--text);
+
+  background-color: var(--bg);
+  background-image: var(--stars);
+  background-size: 144px 144px;
+  image-rendering: pixelated;
 }
 
 /* Image button */
@@ -84,16 +118,15 @@ body
 }
 #overlay.active { opacity: 1; pointer-events: all; z-index: 10; }
 
-/* Website design*/
+/* Website design */
 header
 {
   padding: 20px;
   text-align: center;
   font-size: 50px;
-  background-color: #f2f2f2;
-  border: 1px solid #000000;
+  background-color: var(--panel);
+  color: var(--text);
   margin: 10px;
-  border-radius: 10px;
   height: 150px;
 
   display: flex;
@@ -105,36 +138,65 @@ nav
 {
   padding: 20px;
   text-align: left;
-  background-color: #f2f2f2;
-  border: 1px solid #000000;
+  background-color: var(--panel);
+  color: var(--text);
   margin: 10px;
-  border-radius: 10px;
 }
 
 main
 {
   padding: 20px;
   text-align: left;
-  background-color: #f2f2f2;
-  border: 1px solid #000000;
+  background-color: var(--panel);
+  color: var(--text);
   margin: 10px;
-  border-radius: 10px;
 }
 
 footer
 {
   padding: 20px;
   text-align: center;
-  background-color: #f2f2f2;
-  border: 1px solid #000000;
+  background-color: var(--panel);
+  color: var(--text);
   margin: 10px;
-  border-radius: 10px;
   height: 100px;
 
   display: flex;
   justify-content: center;
   align-items: center; 
 }
+
+/* Headings use the accent color. !important is needed to beat the
+   color: ... written directly inside the HTML pages. */
+header h2, nav h2, main h2 { color: var(--accent) !important; }
+.note-app #status { color: var(--muted) !important; }
+
+/* Pixel borders (two-pixel corners) */
+header, nav, main, footer, .pixel-borders
+{
+  --pixel: 6px;                          /* size of one "pixel" */
+  --pixel-color: var(--accent);          /* border color follows the theme */
+  border: none;
+  border-radius: 0;
+
+  /* straight sides, pulled in one pixel from each end */
+  box-shadow:
+    0 calc(var(--pixel) * -2) 0 calc(var(--pixel) * -1) var(--pixel-color),
+    0 calc(var(--pixel) * 2)  0 calc(var(--pixel) * -1) var(--pixel-color),
+    calc(var(--pixel) * -2) 0 0 calc(var(--pixel) * -1) var(--pixel-color),
+    calc(var(--pixel) * 2)  0 0 calc(var(--pixel) * -1) var(--pixel-color);
+
+  /* the extra pixel that completes each corner step */
+  background-image:
+    linear-gradient(var(--pixel-color), var(--pixel-color)),
+    linear-gradient(var(--pixel-color), var(--pixel-color)),
+    linear-gradient(var(--pixel-color), var(--pixel-color)),
+    linear-gradient(var(--pixel-color), var(--pixel-color));
+  background-repeat: no-repeat;
+  background-size: var(--pixel) var(--pixel);
+  background-position: top left, top right, bottom left, bottom right;
+}
+
 .box
 {
   max-width: 1000px;
@@ -187,7 +249,7 @@ ul li ::marker
 nav a
 {
   text-decoration: none;
-  color: rgb(27, 65, 22);
+  color: var(--accent);
   font-size: 18px;
   
 }
@@ -223,14 +285,20 @@ nav ul
   font-size: 18px;
   font-weight: bold;
   text-align: center;
-  color: rgb(27, 65, 22);
+  color: var(--accent);
 }
 .letter-date
 {
   margin: 2px 0 0;
   font-size: 14px;
   text-align: center;
-  color: #666;
+  color: var(--muted);
+}
+
+/* Buttons and typing boxes use the same font as the page */
+button, input, textarea
+{
+  font-family: inherit;
 }
 
 /* Mobile layout */
