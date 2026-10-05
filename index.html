@@ -22,39 +22,16 @@
         </nav>
         <main>
             <h2 style="color: rgb(27, 65, 22);">Letters to Open</h2>
-            <p>From yours truly</p>
+            <p>Love you so much!</p>
 
-            <div class="letters">
-
-                <div class="letter">
-                    <button class="open-button" data-popup-target="#popup">
-                        <img src="Letter.png" alt="Open letter">
-                    </button>
-                    <p class="letter-label">First Letter of Many</p>
-                    <p class="letter-date">Oct 5, 2026</p>
-                </div>
-
-                <!-- To add another letter, copy the whole <div class="letter"> block above,
-                     change the popup number (#popup2), the name, and the date.
-                     Then add a matching popup with id="popup2" below. -->
-
-            </div>
+            <!-- script.js fills this in from the list of letters -->
+            <div class="letters" id="letters"></div>
         </main>
         <footer>Footer</footer>
         </div>
 
-
-        <div class="popup" id="popup">
-            <div class="popup-header">
-                <div class="title">For Sam</div>
-                <button data-close-button class="close-button">&times;</button>
-            </div>
-            <div class="popup-body">
-                <img src="Testing.png" alt="Letter page 1">
-                <img src="Testing_2.png" alt="Letter page 2">
-            </div>
-        </div>
-
+        <!-- script.js puts the popups here -->
+        <div id="popups"></div>
         <div id="overlay"></div>
 
         <script src="script.js"></script>
