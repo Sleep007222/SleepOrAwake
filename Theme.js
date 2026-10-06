@@ -10,4 +10,4 @@ function applyTheme() {
 }
 
 applyTheme();                       // runs immediately, so the page never flashes the wrong theme
-setInterval(applyTheme, 60 * 1000); // re-checks every minute if the page stays open
+setInterval(applyTheme, 60 * 1000); 

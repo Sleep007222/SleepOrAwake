@@ -1,4 +1,6 @@
-/* Font: Pixelify Sans, SIL Open Font License 1.1. */
+/* Pixelify Sans, embedded right in the CSS so it is ready the instant the page draws
+   (no separate download, so no flash of the wrong font between pages).
+   Font: Pixelify Sans, SIL Open Font License 1.1. */
 @font-face
 {
   font-family: "Pixelify Sans";
