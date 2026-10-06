@@ -1,6 +1,6 @@
 .note-app
 {
-  --dark-green: rgb(27, 65, 22);
+  --dark-green: #192224;
 }
 
 .note-app h2
@@ -32,7 +32,7 @@
 }
 .note-app #note:focus
 {
-  border-color: #8bd375;
+  border-color: #46ffd7;
 }
 .note-app #note:disabled
 {

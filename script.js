@@ -10,7 +10,7 @@ const letters = [
   },
   {
     name: "???",
-    date: "October 9th, 2026",
+    date: "Oct 9th, 2026",
     icon: "Letter.png",
     pages: [],
   }
