@@ -3,11 +3,12 @@
 const NIGHT_STARTS = 18; // 6pm
 const NIGHT_ENDS = 6;    // 6am
 
-function applyTheme() {
+function applyTheme()
+{
   const hour = new Date().getHours();
   const isNight = hour >= NIGHT_STARTS || hour < NIGHT_ENDS;
   document.documentElement.setAttribute("data-theme", isNight ? "night" : "day");
 }
 
-applyTheme();                       // runs immediately, so the page never flashes the wrong theme
+applyTheme();                      
 setInterval(applyTheme, 60 * 1000); 
