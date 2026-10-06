@@ -1,7 +1,8 @@
 // =====================================================
 // LIST TO ADD, REMOVE, OR REORDER LETTERS
 // =====================================================
-const letters = [
+const letters =
+[
   {
     name: "First Letter",
     date: "Oct 4, 2026",
