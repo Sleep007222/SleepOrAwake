@@ -92,9 +92,14 @@
 .calendar-app .calendar .days .active {
   position: relative;
   font-size: 1.6rem;
-  color: var(--primary-clr);
-  background-color: transparent;
-  border: 3px solid #00fff2;
+  color: #fff;
+  background-color: var(--primary-clr);
+}
+.calendar-app .calendar .days .active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  box-shadow: 0 0 10px 2px var(--primary-clr);
 }
 .calendar-app .calendar .days .today { font-size: 1.6rem; }
 .calendar-app .calendar .days .event { position: relative; }
